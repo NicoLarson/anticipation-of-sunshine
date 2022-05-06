@@ -1,48 +1,58 @@
 from matplotlib import pyplot as plt
-import numpy as np
 import pandas
-from sklearn.linear_model import LinearRegression
-
-
-def data_frame_treatment(data_frame):
-    """
-    It takes a dataframe, and returns a new dataframe with the same columns, but with the rows that are
-    not consecutive removed
-    
-    :param data_frame: the dataframe that you want to treat
-    :return: A dataframe with the same columns as the input dataframe, but with the last column being
-    the GHI(t+1) column.
-    """
-    data_frame = pandas.read_csv(data_frame, sep=';')
-    data_frame_new = data_frame.copy()
-
-    data_frame_new["GHI(t+1)"] = np.nan
-    data_frame_new.loc[:len(data_frame_new) - 2, "GHI(t+1)"] = np.array(
-        data_frame_new.loc[1:len(data_frame) - 1, "Date"]) - np.array(
-            data_frame_new.loc[:len(data_frame_new) - 2, "Date"])
-    data_frame_new[(data_frame_new["GHI(t+1)"] != 1)] = np.nan
-    index_with_nan = data_frame_new.index[data_frame_new.isnull().any(axis=1)]
-    data_frame_new.drop(index_with_nan, 0, inplace=True)
-    data_frame_new = data_frame_new.append(data_frame.loc[len(data_frame) - 1],
-                                           ignore_index=True)
-
-    data_frame_new.loc[:len(data_frame_new) - 2, "GHI(t+1)"] = np.array(
-        data_frame_new.loc[1:len(data_frame) - 1, "GHI(Wh/m2)"])
-    return data_frame_new
+from sklearn.linear_model import Lasso, LinearRegression
+from modules.data_treatment import data_frame_treatment
 
 
 def linear_regression(file):
-    data_frame = data_frame_treatment(file)
-    print(data_frame)
-    plt.plot(data_frame["Date"], data_frame["GHI(t+1)"])
-    plt.show()
-    # model = LinearRegression()
-    # X = data_frame[["Date", "GHI(Wh/m2)"]]
-    # y = data_frame["GHI(t+1)"]
-    # plt.scatter(X, y)
-    # plt.show()
+    """
+    It takes a file as input, treats the data, fits a linear regression model, predicts the next day's
+    GHI, and displays the result
+    
+    :param file: the file name of the data set
+    """
+    X, y, data_frame = data_frame_treatment(file)
+    regressor = LinearRegression()
+    regressor.fit(X, y)
+    score = regressor.score(X, y)
+    y_pred = regressor.predict(X)
+    result = pandas.DataFrame({"Date": data_frame["Date"], "GHI(t+1)": y_pred})
+    score = round(score, 2)
+    title = "Linear regression score: " + str(score)
+    display_result(result, title)
 
 
+def linear_lasso(file):
+    """
+    It takes a file as input, and returns a dataframe with the predicted values
+    
+    :param file: the name of the file to be used
+    """
+    X, y, data_frame = data_frame_treatment(file)
+    lasso = Lasso(alpha=0.1)
+    lasso.fit(X, y)
+    score = lasso.score(X, y)
+    y_pred = lasso.predict(X)
+    result = pandas.DataFrame({"Date": data_frame["Date"], "GHI(t+1)": y_pred})
+    score = round(score, 2)
+    title = "Lasso regression score: " + str(score)
+    display_result(result, title)
+
+
+# TODO: Ajouter la fonction du traitement avec les voisins
 def cluster():
     print("cluster")
     return "cluster"
+
+
+def display_result(result, title):
+    """
+    It takes a dataframe and a title, and plots the dataframe's "Date" column against its "GHI(t+1)"
+    column
+    
+    :param result: the dataframe containing the predicted values
+    :param title: The title of the plot
+    """
+    plt.title(title)
+    plt.plot(result["Date"], result["GHI(t+1)"])
+    plt.show()
