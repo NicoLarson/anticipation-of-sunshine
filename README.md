@@ -1,13 +1,25 @@
 # Projet TER - L3 Informatique
 
-## Métriques d'évaluation:
+## Dépendances
 
-- MAE
-- MRSE
+- Numpy
+- Matplotlib
+- Sklearn
+- tkinter
 
-## Fonctionnalités
+## Les métriques d'évaluations:
 
-- Importer un fichier Excel
-- Choisir des models
-- Bouton execution
-- En sortie: un graphique + des scores avec les métriques pour comparer les modèles
+- [ ] MAE
+- [ ] MRSE
+
+## Les modèles:
+
+- [ ] Linear Regression
+- [ ] Clustering
+
+## Les fonctionnalités
+
+- [x] Importer un fichier CSV
+- [x] Choisir des models
+- [x] Bouton execution
+- [ ] En sortie: un graphique + des scores avec les métriques pour comparer les modèles

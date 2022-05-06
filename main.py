@@ -1,4 +1,3 @@
-from modules.interface import display_app
+from modules.interface import display_window
 
-
-display_app()
+display_window()

@@ -1,45 +1,32 @@
 from tkinter import filedialog
-import pandas
-import numpy as np
 
 
-def open_file(dialog_title):
+def import_file(dialog_title="importer un fichier"):
     """
-    It opens a file dialog box and returns the file object.
-
-    :param dialog_title: The title of the dialog box
+    It opens a file dialog, and returns the file object.
+    
+    :param dialog_title: The title of the dialog box, defaults to importer un fichier (optional)
     :return: The file object.
     """
-    # takes file location and its type
-    file_location = filedialog.askopenfilename(initialdir=r"./datas",
-                                               title=dialog_title,
-                                               filetypes=(("text files", "*.csv"),
-                                                          ("all files", "*.*")))
-    # read selected file by dialog box
-    file = open(file_location, 'r')
-    return file
+    global imported_file
+    file_location = filedialog.askopenfilename(
+        initialdir=r"./datas_test",
+        title=dialog_title,
+        filetypes=(("text files", "*.csv"), ("all files", "*.*")))
+    imported_file = open(file_location, 'r')
+    return imported_file
+    # showinfo("INFO", "Fichier importé")
 
 
-def open_five_files():
+def import_4_files(dialog_title="importer un fichier"):
     """
-    It opens five files, reads them, and then closes them
+    It imports 4 files, and returns them as a tuple
+    
+    :param dialog_title: The title of the dialog box, defaults to importer un fichier (optional)
+    :return: A tuple of 4 files.
     """
-    file1 = open_file("Sélectionnez le fichier cible")
-    file2 = open_file("Sélectionnez le voisin 1")
-    file3 = open_file("Sélectionnez le voisin 2")
-    file4 = open_file("Sélectionnez le voisin 3")
-    file5 = open_file("Sélectionnez le voisin 4")
-
-    return file1, file2, file3, file4, file5
-
-
-def read_file(file):
-    """
-    It reads a csv file, creates a copy of the dataframe, and adds a new column to the copy
-
-    :param file: the file to read
-    """
-    df = pandas.read_csv(file, sep=';')
-    df_copy = df.copy()
-    df_copy["GHI(t+1)"] = np.nan
-    print(df_copy)
+    file_1 = import_file(dialog_title + "1")
+    file_2 = import_file(dialog_title + "2")
+    file_3 = import_file(dialog_title + "3")
+    file_4 = import_file(dialog_title + "4")
+    return file_1, file_2, file_3, file_4
