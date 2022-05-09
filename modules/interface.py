@@ -67,8 +67,11 @@ def display_window():
         """
         It executes the function corresponding to the radio button selected by the user
         """
-        # TODO: Ajouter un message d'erreur si aucun fichier n'est importé
-        if imported_file:
+        try:
+            imported_file
+        except:
+            showinfo("INFO", "Veuillez importer un fichier")
+        else:
             if (var.get() == 1):
                 linear_regression(imported_file)
             elif (var.get() == 2):
@@ -77,8 +80,6 @@ def display_window():
                 linear_lasso(imported_file)
             else:
                 showinfo("INFO", "Erreur")
-        else:
-            showinfo("INFO", "Veuillez importer un fichier")
 
     execute_btn = Button(text="executer", command=execute_btn)
 

@@ -4,22 +4,15 @@ from sklearn.linear_model import Lasso, LinearRegression
 from modules.data_treatment import data_frame_treatment
 
 
-def linear_regression(file):
-    """
-    It takes a file as input, treats the data, fits a linear regression model, predicts the next day's
-    GHI, and displays the result
-    
-    :param file: the file name of the data set
-    """
-    X, y, data_frame = data_frame_treatment(file)
-    regressor = LinearRegression()
-    regressor.fit(X, y)
-    score = regressor.score(X, y)
-    y_pred = regressor.predict(X)
-    result = pandas.DataFrame({"Date": data_frame["Date"], "GHI(t+1)": y_pred})
-    score = round(score, 2)
-    title = "Linear regression score: " + str(score)
-    display_result(result, title)
+def linear_regression(X_fit, Y_fit, X_predict, Y_predict):
+    model = LinearRegression()
+    fit = model.fit(X_fit, Y_fit)
+    X_result = model.predict(X_predict)
+    score_predict = model.score(X_predict, Y_predict)
+    print(score_predict)
+    score_fit = fit.score(X_fit, Y_fit)
+    print(score_fit)
+    return [score_predict, score_fit]
 
 
 def linear_lasso(file):
