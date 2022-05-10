@@ -42,5 +42,10 @@ def linear_lasso(X_fit, Y_fit, X_predict, Y_predict):
 
 def display_result(title, score_predict, score_fit):
     plt.title(title)
-    plt.plot(score_predict, score_fit)
+    plt.bar(["Score de prédiction", "Scrore d’entraînement"],
+            [score_predict, score_fit],
+            color=['firebrick', 'green'],
+            width=0.2,
+            align='center')
+
     plt.show()
