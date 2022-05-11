@@ -1,10 +1,7 @@
 from matplotlib import pyplot as plt
-import numpy as np
-import pandas
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Lasso, LinearRegression
 from sklearn.svm import SVR
-from modules.data_treatment import data_frame_treatment
 
 
 def linear_regression(X_fit, Y_fit, X_predict, Y_predict):

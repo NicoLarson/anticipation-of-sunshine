@@ -1,47 +1,48 @@
 # Projet TER - L3 Informatique
 
-## Dépendances
+## Le but du projet:
 
-- Numpy
-- Matplotlib
-- Sklearn
-- tkinter
+Créer un programme pour prédire l'ensoleillement grace à un modèle de machine learning.
 
-## Les métriques d'évaluations:
+## Installation des dépendances
 
-- [ ] MAE
-- [ ] MRSE
+```bash
+pip install -r requirements.txt
+```
+
+## Démarrage du projet
+
+```bash
+python main.py
+```
 
 ## Les modèles:
 
-- [ ] Linear Regression
-- [ ] Clustering
+[List des modèles](https://scikit-learn.org/stable/index.html)
 
-## Les fonctionnalités
+- [x] Linear Regression
+- [x] svr
+- [x] linear lasso
 
-- [x] Importer un fichier CSV
-- [x] Choisir des models
-- [x] Bouton execution
-- [] En sortie: un graphique + des scores avec les métriques pour comparer les modèles
+### Ajouter un modèle
 
-## Structure du projet
+Dans le fichier `modules/models.py`, ajouter:
 
-### Dossier racine
+```python
+def nouveau_model(X_fit, Y_fit, X_predict, Y_predict):
+    model = nouveau_model()
+    fit = model.fit(X_fit, Y_fit)
+    score_predict = model.score(X_predict, Y_predict)
+    score_fit = fit.score(X_fit, Y_fit)
+    return [score_predict, score_fit]
+```
 
-#### Fichier main.py
+> A faire: système pour ajouter un modèle
 
-Fichier d'execution du projet
+## Fonctionnalité du programme
 
-### Dossier modules
-
-#### Fichier models.py
-
-Contient les différents modèles
-
-#### Fichier data_treatment.py
-
-Contient les différentes fonctions de traitement des données
-
-#### Fichier interface.py
-
-Contient l'interface graphique
+- Importer un fichier `csv` exemple dans `datas_test`
+- Choisir si on veut faire un traitement avec clusters ou pas
+- Choisir le modèle à utiliser
+- Executer le traitement
+- Affichage du résultat
